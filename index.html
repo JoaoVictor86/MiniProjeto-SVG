@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniProjeto-SVG</title>
+
+    <script>
+            const desenharCidade = async() => {
+
+                const cidade = document.getElementById('cidade').value
+                const getSvg = `http://localhost:3000/getSvg/${cidade}`
+                const dadosSvg = await fetch(getSvg)
+                const svg = await dadosSvg.json()
+                const path = document.querySelector("#pathCidade")
+                path.setAttribute("d", svg[0].st_assvg)
+        
+                const getViewBox = `http://localhost:3000/getViewBox/${cidade}`
+                const dadosViewBox = await fetch(getViewBox)
+                const viewBox = await dadosViewBox.json()
+                const view = document.querySelector("#viewBox")
+                view.setAttribute("viewBox", viewBox[0].getviewbox)
+
+            }
+    </script>
+   
+</head>
+<body>
+
+    <form method="post">
+        <div>
+            <label for="nome">Coloque aqui o nome da cidade que você deseja desenhar:</label>
+            <br><br>
+            <input type="text" id="cidade" />
+            <button type="button" id="btn" onclick="desenharCidade()">Desenhar</button>
+        </div>
+    </form>
+    <br>
+    
+    <svg id="viewBox" height="210" width="400">
+        <path id="pathCidade" fill="#DC143C" stroke="#00008B" stroke-width="0.01"/>
+    </svg>
+
+
+
+</body>
+</html>
